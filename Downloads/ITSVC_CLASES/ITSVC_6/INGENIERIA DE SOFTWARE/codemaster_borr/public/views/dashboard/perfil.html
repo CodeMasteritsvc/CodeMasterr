@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CoderMaster - Perfil</title>
+  <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.0/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/styles.css">
+  <link rel="stylesheet" href="/public/css/profile.css">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Aquí se cargará el sidebar automáticamente -->
+    <div id="dashboard-container"></div>
+    
+    <div class="app-container">
+        <!-- Aquí se cargará el sidebar automáticamente -->
+        <div id="dashboard-container"></div>
+        
+        <div class="container rounded bg-white mt-5 mb-5">
+            <div class="row">
+                <div class="col-md-3 border-right">
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <img class="rounded-circle mt-5" width="150px" src="https://st3.depositphotos.com/15648834/17930/v/600/depositphotos_179308454-stock-illustration-unknown-person-silhouette-glasses-profile.jpg">
+                        <span class="font-weight-bold">Example</span><span class="text-black-50">Example@itsvc.edu.mx</span><span> </span></div>
+                </div>
+                <div class="col-md-5 border-right">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
+                            <h4 class="text-right">Informacion de Perfil</h4>
+                        </div>
+                        <div class="row mt-2">
+                            <div class="col-md-6"><label class="labels">Nombre(s)</label><input type="text" class="form-control" placeholder="" value=""></div>
+                            <div class="col-md-6"><label class="labels">Apellidos</label><input type="text" class="form-control" value="" placeholder=""></div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-12"><label class="labels">Correo</label><input type="text" class="form-control" placeholder="" value=""></div>
+                            <div class="col-md-12"><label class="labels">Telefono</label><input type="text" class="form-control" placeholder="" value=""></div>
+                            <div class="col-md-12"><label class="labels">Matricula</label><input type="text" class="form-control" placeholder="" value=""></div>
+                            <div class="col-md-12"><label class="labels">Semestre</label><input type="text" class="form-control" placeholder="" value=""></div>
+                            <div class="col-md-12"><label class="labels">Carrera</label><input type="text" class="form-control" placeholder="" value=""></div>
+                            <div class="col-md-12"><label class="labels">Correo Institucional</label><input type="text" class="form-control" placeholder="" value=""></div>
+    
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col-md-6"><label class="labels">Fecha de nacimiento</label><input type="text" class="form-control" placeholder="" value=""></div>
+                            <div class="col-md-6"><label class="labels">Genero</label><input type="text" class="form-control" value="" placeholder=""></div>
+                        </div>
+                        <div class="mt-5 text-center"><button class="btn btn-primary profile-button" type="button">Guardar Perfil</button></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="p-3 py-5">
+                        <div class="d-flex justify-content-between align-items-center experience"><span>Edit Experience</span><span class="border px-3 p-1 add-experience"><i class="fa fa-plus"></i>&nbsp;Experience</span></div><br>
+                        <div class="col-md-12"><label class="labels">Experience in Designing</label><input type="text" class="form-control" placeholder="experience" value=""></div> <br>
+                        <div class="col-md-12"><label class="labels">Additional Details</label><input type="text" class="form-control" placeholder="additional details" value=""></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+       
+
+  <script>
+  // Cargar el dashboard dinámicamente
+  fetch('/views/templ/dashboard.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('dashboard-container').innerHTML = html;
+      // Marcar el enlace de perfil como activo
+      const navLinks = document.querySelectorAll('.nav-link');
+      navLinks.forEach(link => {
+        if (link.href.includes('perfil.html')) {
+          link.classList.add('active');
+        }
+      });
+    })
+    .catch(error => console.error('Error cargando el dashboard:', error));
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js"></script>
+</body>
+</html>

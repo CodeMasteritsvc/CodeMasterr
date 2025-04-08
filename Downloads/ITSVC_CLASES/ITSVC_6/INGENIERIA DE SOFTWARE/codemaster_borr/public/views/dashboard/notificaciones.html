@@ -1,0 +1,114 @@
+<!-- notificaciones.html -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITSVC - Notificaciones</title>
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+    <link rel="stylesheet" href="/views/templ/dashboard.html">
+
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar se cargará dinámicamente -->
+        <div id="dashboard-container"></div>
+
+        <!-- Contenido principal -->
+        <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script>
+        $( function() {
+          $( "#sortable" ).sortable();
+          $( "#sortable" ).disableSelection();
+        } );
+        </script>
+        <div class="app-container">
+            <div id="dashboard-container"></div>
+    
+            <div class="page-content page-container" id="page-content">
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="container-fluid d-flex justify-content-center">
+                                <div class="list list-row card" id="sortable">
+                                    <div class="list-item" data-id="13">
+                                        <div><span class="w-40 avatar gd-primary">P</span></div>
+                                        <div class="flex">
+                                            <a href="#" class="item-author text-color">Patrick Linod</a>
+                                            <div class="item-except text-muted text-sm">For what reason should I consider business content?</div>
+                                        </div>
+                                        <div class="no-wrap">
+                                            <div class="item-date text-muted text-sm">3 weeks ago</div>
+                                        </div>
+                                    </div>
+                                    <div class="list-item" data-id="9">
+                                        <div><span class="w-40 avatar gd-info"><img src="https://img.icons8.com/bubbles/24/000000/user.png"></span></div>
+                                        <div class="flex">
+                                            <a href="#" class="item-author text-color">Steven Hmpire</a>
+                                            <div class="item-except text-muted text-sm">Build a progressive web app using jQuery</div>
+                                        </div>
+                                        <div class="no-wrap">
+                                            <div class="item-date text-muted text-sm">2 days ago</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div id="detalle-notificacion" class="card p-3">
+                                <h5>Detalles de la Notificación</h5>
+                                <p>Selecciona una notificación para ver los detalles aquí.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+      
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js"></script>
+    <script>
+        document.querySelectorAll('.list-item').forEach(item => {
+            item.addEventListener('click', function() {
+                // Obtener el contenido de la notificación
+                let autor = this.querySelector('.item-author').innerText;
+                let mensaje = this.querySelector('.item-except').innerText;
+                let fecha = this.querySelector('.item-date').innerText;
+    
+                // Mostrar en el área de detalles
+                document.getElementById('detalle-notificacion').innerHTML = `
+                    <h5>${autor}</h5>
+                    <p><strong>Fecha:</strong> ${fecha}</p>
+                    <p>${mensaje}</p>
+                `;
+            });
+        });
+    </script>
+    
+    <script>
+        // Cargar dashboard
+        fetch('/views/templ/dashboard.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('dashboard-container').innerHTML = html;
+                // Marcar notificaciones como activo
+                document.querySelector('[href="notificaciones.html"]').classList.add('active');
+                // Inicializar componentes
+                new CoreUI.Sidebar(document.getElementById('sidebar'));
+                new CoreUI.Navigation(document.querySelector('.sidebar-nav'));
+                
+                // Marcar como leído al hacer clic
+                document.querySelectorAll('.notification-card').forEach(card => {
+                    card.addEventListener('click', function() {
+                        this.classList.remove('unread');
+                    });
+                });
+            });
+    </script>
+</body>
+</html>

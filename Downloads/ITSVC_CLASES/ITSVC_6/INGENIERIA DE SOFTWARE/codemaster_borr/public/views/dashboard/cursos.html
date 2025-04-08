@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CoderMaster - Mis Cursos</title>
+  <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.0/css/all.css" rel="stylesheet">
+  <link rel="stylesheet" href="/public/css/styles.css">
+  <link rel="stylesheet" href="/views/templ/dashboard.html">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Aquí se cargará el sidebar automáticamente -->
+    <div id="dashboard-container"></div>
+    
+ <!-- Main Content -->
+ <main class="main-content">
+    <header class="content-header">
+      <h1>Cursos</h1>
+      <p class="subtitle">Puedes ver todos tus cursos activos</p>
+    </header>
+    
+    <div class="courses-container">
+      <article class="course-card">
+        <div class="course-header">
+          <h2>JS Avanzado</h2>
+          <h3>JavaScript Moderno</h3>
+        </div>
+        <div class="course-body">
+          <p class="course-description">
+            Lorem ipsum dolor sit amet consectetur adipiscing elit parturient eros tristique, tincidunt ut montes rutrum.
+          </p>
+          <div class="course-meta">
+            <p><strong>Profesor:</strong> Aless Antonio Cruz</p>
+            <p><strong>Semestre:</strong> 2023-2</p>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-book-open"></i> Ver
+            </button>
+            <button class="btn btn-secondary">
+              <i class="fas fa-file-alt"></i> Ajustes
+            </button>
+          </div>
+        </div>
+      </article>
+      
+      <article class="course-card">
+        <div class="course-header">
+          <h2>Difendus Pintugbiana</h2>
+          <h3>Programación Avanzada</h3>
+        </div>
+        <div class="course-body">
+          <p class="course-description">
+            Lorem ipsum dolor sit amet consectetur adipiscing elit parturient eros tristique, tincidunt ut montes rutrum.
+          </p>
+          <div class="course-meta">
+            <p><strong>Profesor:</strong> Axel Buca Press</p>
+            <p><strong>Semestre:</strong> 2023-2</p>
+          </div>
+          <div class="course-actions">
+            <button class="btn btn-primary">
+              <i class="fas fa-book-open"></i> Ver
+            </button>
+            <button class="btn btn-secondary">
+              <i class="fas fa-file-alt"></i> Ajustes
+            </button>
+          </div>
+        </div>
+      </article>
+    </div>
+  </main>
+
+
+  <script>
+  // Cargar el dashboard dinámicamente
+  fetch('/views/templ/dashboard.html')
+    .then(response => response.text())
+    .then(html => {
+      document.getElementById('dashboard-container').innerHTML = html;
+    })
+    .catch(error => console.error('Error cargando el dashboard:', error));
+  </script>
+  
+  <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js"></script>
+</body>
+</html>

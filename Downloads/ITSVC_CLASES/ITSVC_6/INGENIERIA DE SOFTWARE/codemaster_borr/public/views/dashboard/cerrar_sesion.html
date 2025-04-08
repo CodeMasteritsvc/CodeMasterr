@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITSVC - Cerrar Sesión</title>
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/styles.css">
+    <style>
+        .logout-container {
+            max-width: 500px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .logout-actions {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+        #confirm-logout {
+            background-color: #d9534f;
+            border-color: #d9534f;
+        }
+        #confirm-logout:hover {
+            background-color: #c9302c;
+            border-color: #c12e2a;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar se cargará dinámicamente -->
+        <div id="dashboard-container"></div>
+
+        <!-- Contenido principal -->
+        <main class="main-content">
+            <div class="logout-container">
+                <i class="cil-account-logout" style="font-size: 3rem; color: #321fdb; margin-bottom: 1rem;"></i>
+                <h2>¿Estás seguro que deseas cerrar sesión?</h2>
+                <p>Serás redirigido a la página de selección de usuario</p>
+                
+                <div class="logout-actions">
+                    <button id="confirm-logout" class="btn">
+                        <i class="cil-account-logout"></i> Sí, cerrar sesión
+                    </button>
+                    <button id="cancel-logout" class="btn btn-secondary">
+                        <i class="cil-x"></i> Cancelar
+                    </button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Cargar dashboard
+            fetch('/public/views/templ/dashboard.html')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al cargar el dashboard');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    document.getElementById('dashboard-container').innerHTML = html;
+                    
+                    // Inicializar componentes después de cargar el dashboard
+                    setTimeout(() => {
+                        try {
+                            new CoreUI.Sidebar(document.getElementById('sidebar'));
+                            new CoreUI.Navigation(document.querySelector('.sidebar-nav'));
+                            
+                            // Marcar cerrar sesión como activo
+                            const logoutLink = document.querySelector('[href="cerrar-sesion.html"]');
+                            if (logoutLink) {
+                                logoutLink.classList.add('active');
+                            }
+                        } catch (e) {
+                            console.error('Error al inicializar componentes:', e);
+                        }
+                    }, 100);
+                    
+                    // Manejar confirmación de logout
+                    document.getElementById('confirm-logout').addEventListener('click', function() {
+                        console.log('Intentando cerrar sesión...');
+                        
+                        // Redirigir a la página de selección de usuario
+                        const selectionUserPath = '/public/views/auth/seleccion_usuario.html';
+                        
+                        // Verificar si la ruta existe (opcional)
+                        fetch(selectionUserPath, { method: 'HEAD' })
+                            .then(response => {
+                                if (response.ok) {
+                                    window.location.href = selectionUserPath;
+                                } else {
+                                    console.error('No se encontró la página de selección de usuario');
+                                    window.location.href = '/public/views/auth/seleccion_usuario.html'; // Ruta alternativa
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error al verificar ruta:', error);
+                                window.location.href = '/public/views/auth/seleccion_usuario.html'; // Ruta alternativa
+                            });
+                    });
+                    
+                    // Manejar cancelación
+                    document.getElementById('cancel-logout').addEventListener('click', function() {
+                        window.location.href = '/public/views/dashboard/dashboard.html';
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    // Si falla la carga del dashboard, igualmente permitir el logout
+                    document.getElementById('confirm-logout').addEventListener('click', function() {
+                        window.location.href = '/public/views/auth/seleccion_usuario.html';
+                    });
+                    document.getElementById('cancel-logout').addEventListener('click', function() {
+                        window.location.href = '/public/views/dashboard/dashboard.html';
+                    });
+                });
+        });
+    </script>
+</body>
+</html>

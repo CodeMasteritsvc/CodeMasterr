@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITSVC - Ayuda</title>
+    
+    <!-- Enlaces de CDN para Bootstrap y Font Awesome -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet"> <!-- Versión más actual de Font Awesome -->
+    <link rel="stylesheet" href="/public/css/ayuda.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar se cargará dinámicamente -->
+        <div id="dashboard-container"></div>
+
+        <!-- Contenido principal -->
+        <div class="container mt-4"> 
+            <div class="row d-flex justify-content-center"> 
+                <div class="col-md-9">
+                    <div class="card p-4 mt-3">
+                        <!-- Título de la página -->
+                        <h3 class="heading mt-5 text-center">Hola! Como podemos Ayudarte?</h3>
+                        
+                        <!-- Barra de búsqueda -->
+                        <div class="d-flex justify-content-center px-5"> 
+                            <div class="search"> 
+                                <input type="text" class="search-input" placeholder="Search..." name=""> 
+                                <a href="#" class="search-icon"> 
+                                    <i class="fas fa-search"></i> 
+                                </a> 
+                            </div> 
+                        </div> 
+
+                        <!-- Opciones de ayuda -->
+                        <div class="row mt-4 g-1 px-4 mb-5">
+                            <div class="col-md-2">
+                                <div class="card-inner p-3 d-flex flex-column align-items-center">
+                                    <i class="fas fa-user-circle" style="font-size: 50px;"></i> <!-- Icono actualizado -->
+                                    <div class="text-center mg-text"> 
+                                        <span class="mg-text">Account</span> 
+                                    </div> 
+                                </div> 
+                            </div>
+                            
+                            <div class="col-md-2">
+                                <div class="card-inner p-3 d-flex flex-column align-items-center"> 
+                                    <i class="fas fa-credit-card" style="font-size: 50px;"></i> <!-- Icono actualizado -->
+                                    <div class="text-center mg-text"> 
+                                        <span class="mg-text">Pagos</span> 
+                                    </div> 
+                                </div>
+                            </div> 
+
+
+
+                            <div class="col-md-2"> 
+                                <div class="card-inner p-3 d-flex flex-column align-items-center"> 
+                                    <i class="fas fa-undo" style="font-size: 50px;"></i> <!-- Icono actualizado -->
+                                    <div class="text-center mg-text"> 
+                                        <span class="mg-text">Reiniciar</span> 
+                                    </div> 
+                                </div> 
+                            </div> 
+
+                            <div class="col-md-2"> 
+                                <div class="card-inner p-3 d-flex flex-column align-items-center"> 
+                                    <i class="fas fa-shield-alt" style="font-size: 50px;"></i> <!-- Icono actualizado -->
+                                    <div class="text-center mg-text"> 
+                                        <span class="mg-text">Seguridad</span> 
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+        </div>
+    </div>
+
+    <!-- Enlaces de CDN para Bootstrap JS y jQuery -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        // Cargar dashboard dinámicamente
+        fetch('/public/views/templ/dashboard.html')
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('dashboard-container').innerHTML = html;
+                
+                // Marcar 'Ayuda' como activo en el menú
+                const helpLink = document.querySelector('[href="ayuda.html"]');
+                if (helpLink) helpLink.classList.add('active');
+                
+                // Inicializar el sidebar y navegación de CoreUI
+                new CoreUI.Sidebar(document.getElementById('sidebar'));
+                new CoreUI.Navigation(document.querySelector('.sidebar-nav'));
+                
+                // Manejar el envío del formulario de ayuda (si existe)
+                const helpForm = document.querySelector('.help-form');
+                if (helpForm) {
+                    helpForm.addEventListener('submit', function(e) {
+                        e.preventDefault();
+                        alert('Tu mensaje ha sido enviado al equipo de desarrollo');
+                        this.reset();
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error cargando el dashboard:', error);
+            });
+    </script>
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITSVC - {{title}}</title>
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/css/coreui.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@coreui/icons@3.0.0/css/all.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar sidebar-narrow-unfoldable border-end" id="sidebar">
+            <div class="sidebar-header border-bottom">
+                <div class="sidebar-brand-vertical">
+                    <a href="/views/dashboard/dashboard.html" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: inherit;">
+                        <img src="/images/ITSVC_LOGO.jpg" alt="ITSVC Logo" class="sidebar-logo">
+                        <span class="fw-bold">ITSVC</span>
+                    </a>
+                </div>
+            </div>
+            
+            <ul class="sidebar-nav" data-coreui="navigation">
+                <li class="nav-title">CODERMASTER</li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {{#if active.perfil}}active{{/if}}" href="perfil.html">
+                        <i class="nav-icon cil-user"></i> PERFIL
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="notificaciones.html">
+                      <i class="nav-icon cil-bell"></i> NOTIFICACIONES
+                      <span class="badge bg-primary ms-auto">NEW</span>
+                    </a>
+                </li>
+                
+                <li class="nav-item nav-group {{#if active.cursos}}show{{/if}}">
+                    <a class="nav-link nav-group-toggle" href="#" data-coreui="toggle">
+                        <i class="nav-icon cil-education"></i> CURSOS
+                        <svg class="nav-icon-dropdown" width="16" height="16" viewBox="0 0 24 24">
+                            <path d="M7 10l5 5 5-5z"/>
+                        </svg>
+                    </a>
+                    <ul class="nav-group-items">
+                        <li class="nav-item">
+                            <a class="nav-link {{#if active.mis-cursos}}active{{/if}}" href="cursos.html">
+                                <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Mis Cursos
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{#if active.nuevo-curso}}active{{/if}}" href="nuevos_cursos.html">
+                                <span class="nav-icon"><span class="nav-icon-bullet"></span></span> Mas Cursos
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                
+                <li class="nav-item mt-auto">
+                    <a class="nav-link {{#if active.ayuda}}active{{/if}}" href="ayuda.html">
+                        <i class="nav-icon cil-life-ring"></i> AYUDA
+                    </a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link {{#if active.cerrar-sesion}}active{{/if}}" href="cerrar_sesion.html">
+                        <i class="nav-icon cil-account-logout"></i> CERRAR SESIÓN
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <main class="main-content">
+            <!-- Contenido específico de la página -->
+            <div id="page-content"></div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@5.3.1/dist/js/coreui.bundle.min.js"></script>
+    <script>
+        // Inicialización del sidebar
+        document.addEventListener('DOMContentLoaded', function() {
+            // Inicializar Sidebar con todas las funciones
+            const sidebar = new CoreUI.Sidebar(document.getElementById('sidebar'), {
+                unfoldable: true,
+                minimized: false
+            });
+            
+            // Inicializar Navigation con configuración completa
+            const navigation = new CoreUI.Navigation(document.querySelector('.sidebar-nav'), {
+                dropdown: {
+                    display: 'dynamic',
+                    animation: true
+                },
+                scroll: {
+                    behavior: 'smooth'
+                }
+            });
+            
+            // Activar el menú desplegable si corresponde
+            const navGroup = document.querySelector('.nav-group');
+            if (navGroup.classList.contains('show')) {
+                navGroup.querySelector('.nav-group-items').style.display = 'block';
+            }
+        });
+        
+        // Función para cargar contenido en el dashboard
+        function loadContent(url) {
+            fetch(url)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('page-content').innerHTML = html;
+                })
+                .catch(error => console.error('Error loading content:', error));
+        }
+    </script>
+</body>
+</html>
